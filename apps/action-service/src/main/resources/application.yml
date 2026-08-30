@@ -1,0 +1,15 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: action-service
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+logging:
+  level:
+    root: INFO

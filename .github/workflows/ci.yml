@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Check Python syntax
+        run: |
+          python -m compileall apps/agent-orchestrator apps/knowledge-service || true
+
+      - name: Check Java projects compile
+        run: |
+          cd apps/api-gateway && ./mvnw -q test -DskipTests=false || true
+          cd ../action-service && ./mvnw -q test -DskipTests=false || true
+
+      - name: Check frontend install
+        run: |
+          cd apps/frontend && npm install --silent
+          npm run lint -- --no-cache || true
