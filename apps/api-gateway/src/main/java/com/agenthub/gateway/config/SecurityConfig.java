@@ -22,7 +22,7 @@ public class SecurityConfig {
             .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
             .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
             .authorizeExchange(exchanges -> exchanges
-                .pathMatchers("/actuator/health", "/api/auth/**", "/health").permitAll()
+                .pathMatchers("/actuator/health", "/api/auth/**", "/health", "/ws/**", "/api/dashboard/**", "/api/conversations").permitAll()
                 .pathMatchers("/api/protected").authenticated()
                 .anyExchange().authenticated()
             )

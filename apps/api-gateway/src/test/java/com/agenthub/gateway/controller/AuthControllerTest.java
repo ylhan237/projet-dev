@@ -37,4 +37,25 @@ class AuthControllerTest {
             .exchange()
             .expectStatus().isUnauthorized();
     }
+
+    @Test
+    void dashboardOverviewShouldBeAccessible() {
+        webTestClient.get()
+            .uri("/api/dashboard/overview")
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody()
+            .jsonPath("$.activeConversations").isNumber()
+            .jsonPath("$.avgResponseTimeMs").isNumber();
+    }
+
+    @Test
+    void conversationsShouldReturnList() {
+        webTestClient.get()
+            .uri("/api/conversations")
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody()
+            .jsonPath("$[0].conversationId").exists();
+    }
 }
