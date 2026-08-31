@@ -122,6 +122,35 @@ helm template agenthub ./deploy/helm/agenthub --values ./deploy/helm/agenthub/va
 helm install agenthub ./deploy/helm/agenthub --values ./deploy/helm/agenthub/values-staging.yaml --namespace agenthub-staging --create-namespace
 ```
 
+## Phase 6 - Observabilite & Production-Ready
+
+- OpenTelemetry et traces distribuées pour les services Java/Python/Next.js
+- Prometheus + Grafana pour les métriques et dashboards
+- health probes et readiness checks pour les pods/services
+- préparation du monitoring de production et de l’alerting
+
+### Stack de monitoring
+
+```text
+monitoring/
+  prometheus.yml
+  grafana/
+    provisioning/
+      datasources/
+        datasource.yml
+```
+
+### Accès local aux outils
+
+- Prometheus : http://localhost:9090
+- Grafana : http://localhost:3001 (admin / admin)
+
+### Commandes utiles
+
+```bash
+docker compose up -d postgres redis prometheus grafana
+```
+
 ## Prochaine étape
 
-La prochaine phase est la Phase 6, avec l’observabilité, la production-ready et les dashboards de monitoring.
+La prochaine étape dans le roadmap est la production finale sur Azure, avec la mise en place d’alertes avancées et de l’optimisation de la stabilité en cluster.

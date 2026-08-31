@@ -17,6 +17,25 @@ services:
     ports:
       - "6379:6379"
 
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    container_name: agenthub-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana:11.1.0
+    container_name: agenthub-grafana
+    ports:
+      - "3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+
   frontend:
     image: node:22-alpine
     container_name: agenthub-frontend
@@ -44,6 +63,9 @@ services:
     depends_on:
       - postgres
       - redis
+    environment:
+      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,prometheus
+      MANAGEMENT_METRICS_TAGS_APPLICATION: api-gateway
 
   agent-orchestrator:
     image: python:3.12-slim

@@ -1,0 +1,24 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'agenthub-api-gateway'
+    static_configs:
+      - targets: ['api-gateway:8080']
+    metrics_path: '/actuator/prometheus'
+
+  - job_name: 'agenthub-frontend'
+    static_configs:
+      - targets: ['frontend:3000']
+    metrics_path: '/api/metrics'
+
+  - job_name: 'agenthub-agent-orchestrator'
+    static_configs:
+      - targets: ['agent-orchestrator:8001']
+    metrics_path: '/metrics'
+
+  - job_name: 'agenthub-knowledge-service'
+    static_configs:
+      - targets: ['knowledge-service:8002']
+    metrics_path: '/metrics'
