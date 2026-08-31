@@ -30,3 +30,35 @@ def test_route_request_to_correct_agent():
     escalation_response = client.post("/api/route", json={"message": "Conflit réglementaire majeur"})
     assert escalation_response.status_code == 200
     assert escalation_response.json()["agent"] == "escalation"
+
+
+def test_support_agent_response_is_contextual():
+    response = client.post(
+        "/api/agents/execute",
+        json={"message": "Mon VPN ne fonctionne plus, que faire ?", "session_id": "session-123"},
+    )
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["agent"] == "support"
+    assert "VPN" in payload["response"] or "mot de passe" in payload["response"].lower()
+    assert payload["session_id"] == "session-123"
+
+
+def test_action_agent_requests_human_validation_for_sensitive_cases():
+    response = client.post(
+        "/api/agents/execute",
+        json={"message": "Je veux rembourser une commande de 5000 euros et c'est critique", "session_id": "session-456"},
+    )
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["agent"] == "escalation"
+    assert "humain" in payload["response"].lower() or "validation" in payload["response"].lower()
+
+
+def test_router_returns_reason_for_agent_selection():
+    response = client.post("/api/route", json={"message": "J'ai besoin d'un remboursement"})
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["agent"] == "action"
+    assert "reason" in payload
+    assert len(payload["reason"]) > 0
