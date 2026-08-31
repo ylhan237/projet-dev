@@ -4,9 +4,11 @@ import re
 from typing import Any
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
+from prometheus_fastapi_instrumentator import Instrumentator
 from pydantic import BaseModel, Field
 
 app = FastAPI(title="Knowledge Service")
+Instrumentator().instrument(app).expose(app)
 
 
 class DocumentItem(BaseModel):

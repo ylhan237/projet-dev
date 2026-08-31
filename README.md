@@ -151,6 +151,23 @@ monitoring/
 docker compose up -d postgres redis prometheus grafana
 ```
 
+## Phase 7 - Robustesse production et durcissement Kubernetes
+
+- ajout des points de contrôle `livenessProbe` et `readinessProbe` pour chaque service
+- activation des autoscalers horizontaux (HPA) via le chart Helm
+- exposition des métriques Prometheus sur les services Java et Python
+- endpoint `/api/metrics` du frontend pour le scraping Prometheus
+- préparation des seuils de ressource et des profils de déploiement staging/production
+
+### Vérification locale
+
+```bash
+helm template agenthub ./deploy/helm/agenthub --values ./deploy/helm/agenthub/values-staging.yaml
+cd apps/agent-orchestrator && . .venv/bin/activate && python -m pytest tests/test_main.py -q
+cd apps/knowledge-service && . .venv/bin/activate && python -m pytest tests/test_main.py -q
+cd apps/api-gateway && ./mvnw test -q
+```
+
 ## Prochaine étape
 
-La prochaine étape dans le roadmap est la production finale sur Azure, avec la mise en place d’alertes avancées et de l’optimisation de la stabilité en cluster.
+La prochaine étape dans le roadmap est la production finale sur Azure, avec la mise en place d’alertes avancées, de dashboards Grafana enrichis et de la validation de stabilité du cluster en environnement réel.

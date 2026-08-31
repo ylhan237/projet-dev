@@ -2,9 +2,11 @@ import re
 from pathlib import Path
 
 from fastapi import FastAPI
+from prometheus_fastapi_instrumentator import Instrumentator
 from pydantic import BaseModel, Field
 
 app = FastAPI(title="Agent Orchestrator")
+Instrumentator().instrument(app).expose(app)
 
 AGENT_DEFINITIONS_DIR = Path(__file__).resolve().parent.parent / "agent-definitions"
 

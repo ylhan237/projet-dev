@@ -3,27 +3,87 @@ frontend:
     repository: agenthubprodacr.azurecr.io/frontend
     tag: "latest"
   replicaCount: 2
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 70
 
 apiGateway:
   image:
     repository: agenthubprodacr.azurecr.io/api-gateway
     tag: "latest"
   replicaCount: 2
+  resources:
+    requests:
+      cpu: 300m
+      memory: 384Mi
+    limits:
+      cpu: 800m
+      memory: 768Mi
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 75
 
 agentOrchestrator:
   image:
     repository: agenthubprodacr.azurecr.io/agent-orchestrator
     tag: "latest"
   replicaCount: 2
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 600m
+      memory: 512Mi
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 75
 
 actionService:
   image:
     repository: agenthubprodacr.azurecr.io/action-service
     tag: "latest"
   replicaCount: 2
+  resources:
+    requests:
+      cpu: 150m
+      memory: 192Mi
+    limits:
+      cpu: 400m
+      memory: 384Mi
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 3
+    targetCPUUtilizationPercentage: 70
 
 knowledgeService:
   image:
     repository: agenthubprodacr.azurecr.io/knowledge-service
     tag: "latest"
   replicaCount: 2
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 600m
+      memory: 512Mi
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 75
