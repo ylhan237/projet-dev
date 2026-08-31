@@ -3,12 +3,20 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: light;
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f8fafc;
-  color: #0f172a;
+  background: #020617;
+  color: #f8fafc;
+}
+
+button {
+  cursor: pointer;
 }
