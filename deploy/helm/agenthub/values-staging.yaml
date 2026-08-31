@@ -1,0 +1,29 @@
+frontend:
+  image:
+    repository: agenthubstagingacr.azurecr.io/frontend
+    tag: "latest"
+  replicaCount: 1
+
+apiGateway:
+  image:
+    repository: agenthubstagingacr.azurecr.io/api-gateway
+    tag: "latest"
+  replicaCount: 1
+
+agentOrchestrator:
+  image:
+    repository: agenthubstagingacr.azurecr.io/agent-orchestrator
+    tag: "latest"
+  replicaCount: 1
+
+actionService:
+  image:
+    repository: agenthubstagingacr.azurecr.io/action-service
+    tag: "latest"
+  replicaCount: 1
+
+knowledgeService:
+  image:
+    repository: agenthubstagingacr.azurecr.io/knowledge-service
+    tag: "latest"
+  replicaCount: 1

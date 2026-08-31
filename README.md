@@ -74,6 +74,54 @@ cd apps/knowledge-service && . .venv/bin/activate && python -m pytest tests/test
 cd apps/agent-orchestrator && . .venv/bin/activate && python -m pytest tests/test_main.py -q
 ```
 
+## Phase 5 - Infrastructure Azure & GitOps
+
+- Terraform pour le networking et le registre Azure Container Registry
+- environnements `staging` et `production`
+- chart Helm de déploiement pour les microservices
+- manifests ArgoCD pour les environnements
+- workflow GitHub Actions CD de base
+
+### Arborescence de déploiement
+
+```text
+deploy/
+  argocd/
+    app-staging.yaml
+    app-production.yaml
+  helm/
+    agenthub/
+      Chart.yaml
+      values-staging.yaml
+      values-production.yaml
+      templates/
+        deployment.yaml
+        service.yaml
+        ingress.yaml
+  terraform/
+    environments/
+      staging/
+      production/
+    modules/
+      networking/
+      registry/
+```
+
+### Préparation Azure
+
+```bash
+cd deploy/terraform/environments/staging
+terraform init
+terraform plan
+```
+
+### Déploiement Helm
+
+```bash
+helm template agenthub ./deploy/helm/agenthub --values ./deploy/helm/agenthub/values-staging.yaml
+helm install agenthub ./deploy/helm/agenthub --values ./deploy/helm/agenthub/values-staging.yaml --namespace agenthub-staging --create-namespace
+```
+
 ## Prochaine étape
 
-La prochaine phase est la Phase 5, avec l’infrastructure Azure & GitOps.
+La prochaine phase est la Phase 6, avec l’observabilité, la production-ready et les dashboards de monitoring.

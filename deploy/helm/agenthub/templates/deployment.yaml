@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-frontend
+spec:
+  replicas: {{ .Values.frontend.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-frontend
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: {{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}
+          ports:
+            - containerPort: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-api-gateway
+spec:
+  replicas: {{ .Values.apiGateway.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-api-gateway
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: {{ .Values.apiGateway.image.repository }}:{{ .Values.apiGateway.image.tag }}
+          ports:
+            - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-agent-orchestrator
+spec:
+  replicas: {{ .Values.agentOrchestrator.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-agent-orchestrator
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-agent-orchestrator
+    spec:
+      containers:
+        - name: agent-orchestrator
+          image: {{ .Values.agentOrchestrator.image.repository }}:{{ .Values.agentOrchestrator.image.tag }}
+          ports:
+            - containerPort: 8001
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-knowledge-service
+spec:
+  replicas: {{ .Values.knowledgeService.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-knowledge-service
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-knowledge-service
+    spec:
+      containers:
+        - name: knowledge-service
+          image: {{ .Values.knowledgeService.image.repository }}:{{ .Values.knowledgeService.image.tag }}
+          ports:
+            - containerPort: 8002
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-action-service
+spec:
+  replicas: {{ .Values.actionService.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-action-service
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-action-service
+    spec:
+      containers:
+        - name: action-service
+          image: {{ .Values.actionService.image.repository }}:{{ .Values.actionService.image.tag }}
+          ports:
+            - containerPort: 8081

@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-frontend
+spec:
+  selector:
+    app: {{ .Release.Name }}-frontend
+  ports:
+    - port: 80
+      targetPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-api-gateway
+spec:
+  selector:
+    app: {{ .Release.Name }}-api-gateway
+  ports:
+    - port: 80
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-agent-orchestrator
+spec:
+  selector:
+    app: {{ .Release.Name }}-agent-orchestrator
+  ports:
+    - port: 80
+      targetPort: 8001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-knowledge-service
+spec:
+  selector:
+    app: {{ .Release.Name }}-knowledge-service
+  ports:
+    - port: 80
+      targetPort: 8002
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-action-service
+spec:
+  selector:
+    app: {{ .Release.Name }}-action-service
+  ports:
+    - port: 80
+      targetPort: 8081
